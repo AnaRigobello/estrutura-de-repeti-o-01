@@ -1,0 +1,74 @@
+#Em uma fábrica trabalham homens e mulheres divididos em três classes:
+#• trabalhadores que fazem até 30 peças por mês – classe 1;
+#• trabalhadores que fazem de 31 a 21 peças por mês – classe 2;
+#• trabalhadores que fazem mais de 21 peças por mês – classe 3.
+#➢ A classe 1 recebe salário mínimo.
+#➢ A classe 2 recebe salário mínimo mais 3% deste salário por peça, acima das 30 peças iniciais.
+#➢ A classe 3 recebe salário mínimo mais 5% deste salário por peça, acima das 30 peças iniciais.
+#Faça um programa que receba o número do operário, o número de peças fabricadas no mês, o sexo do operário, e que também calcule e mostre:
+#▪ o número do operário e seu salário;
+#▪ o total da folha de pagamento da fábrica;
+#▪ o número total de peças fabricadas no mês;
+#▪ a média de peças fabricadas pelos homens;
+#▪ a média de peças fabricadas pelas mulheres;
+#▪ o número do operário ou da operária de maior salário.
+#A fábrica possui 15 operários.
+
+def calcular_salario(numero, sexo, pecas):
+    salario_minimo = 1100.00  # valor do salário mínimo fictício para exemplo
+    salario = 0.0
+    
+    if pecas <= 30:
+        salario = salario_minimo
+    elif pecas <= 40:
+        salario = salario_minimo + (pecas - 30) * (salario_minimo * 0.03)
+    else:
+        salario = salario_minimo + (pecas - 30) * (salario_minimo * 0.05)
+    
+    return salario
+
+# Inicialização das variáveis
+total_folha_pagamento = 0.0
+total_pecas_fabricadas = 0
+total_homens = 0
+total_pecas_homens = 0
+total_mulheres = 0
+total_pecas_mulheres = 0
+maior_salario = 0.0
+numero_maior_salario = 0
+
+# Entrada de dados para 15 operários
+for i in range(1, 16):
+    numero_operario = i
+    sexo_operario = input(f"Informe o sexo do operário {i} (M/F): ")
+    numero_pecas = int(input(f"Informe o número de peças fabricadas pelo operário {i}: "))
+    
+    # Calcular o salário do operário
+    salario_operario = calcular_salario(numero_operario, sexo_operario, numero_pecas)
+    
+    # Acumular valores para cálculos finais
+    total_folha_pagamento += salario_operario
+    total_pecas_fabricadas += numero_pecas
+    
+    if sexo_operario.upper() == 'M':
+        total_homens += 1
+        total_pecas_homens += numero_pecas
+    elif sexo_operario.upper() == 'F':
+        total_mulheres += 1
+        total_pecas_mulheres += numero_pecas
+    
+    # Verificar se é o maior salário até agora
+    if salario_operario > maior_salario:
+        maior_salario = salario_operario
+        numero_maior_salario = numero_operario
+
+# Calcular médias
+media_pecas_homens = total_pecas_homens / total_homens if total_homens > 0 else 0
+media_pecas_mulheres = total_pecas_mulheres / total_mulheres if total_mulheres > 0 else 0
+
+# Saída de resultados
+print(f"\nFolha de Pagamento Total: R${total_folha_pagamento:.2f}")
+print(f"Número Total de Peças Fabricadas: {total_pecas_fabricadas}")
+print(f"Média de Peças Fabricadas por Homens: {media_pecas_homens:.2f}")
+print(f"Média de Peças Fabricadas por Mulheres: {media_pecas_mulheres:.2f}")
+print(f"Operário ou Operária de Maior Salário: Número {numero_maior_salario} - Salário R${maior_salario:.2f}")
